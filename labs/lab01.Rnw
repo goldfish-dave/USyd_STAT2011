@@ -1,0 +1,61 @@
+% STAT2011 Lab01
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+
+# Intro
+
+In this lab we learn how to log onto the system and perform a basic session using the R language.
+
+The details of the environment will be ignored. Below is the R code we observed during the lab.
+
+
+# Code
+
+The idea seemed to be finding the most accurate model for estimating the population size.
+
+<<initialize>>=
+N = 2012 # Let N be the population size
+s = sample(1:N,size=100,replace=FALSE)
+# Here we sample from 1:N 100 times without replacement and store the 
+# result in s
+est.mean = (2 * mean(s) ) - 1 # Estimate using the mean
+est.max = (101/100) * max(s) - 1 # Estimate using the max
+est.mean
+est.max
+@
+
+We can see the two estimates. In order to *improve* our estimates we should run the simulation multiple times and compare the performance of the two models.
+
+<<runLoop>>=
+est.mean.vec = 0
+est.max.vec = 0
+for ( i in 1:1000 ) {
+  s = sample(1:N, size=100, replace=FALSE)
+  est.mean = (2 * mean(s) ) - 1
+  est.max = (101/100) * max(s) - 1
+  est.mean.vec[i] = est.mean
+  est.max.vec[i] = est.max
+}
+@
+
+From this "*Monte Carlo*" simulation we should compare the mean and standard deviation.
+
+<<results>>=
+mean(est.mean.vec)
+sd(est.mean.vec)
+mean( (est.mean.vec - N)^2 )
+mean(est.max.vec)
+sd(est.max.vec)
+mean( (est.max.vec - N)^2 )
+@
+
+Additionally we can compare using a boxplot.
+
+<<boxplot,echo=FALSE,fig=TRUE,eps=TRUE,jpeg=FALSE,format=eps>>=
+boxplot(est.mean.vec,est.max.vec,names=c("est.mean", "est.max"),main="A Boxplot of the estimated Size")
+abline(h=2012,lty=2)
+@
+
+As you can see, the est.max performs much more reliably in estimating the actual population
+size.

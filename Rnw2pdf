@@ -1,0 +1,18 @@
+#!/bin/bash
+
+filename=$(basename $1)
+extension=${filename##*.}
+filename=${filename%.*}
+
+echo $1
+echo $filename
+echo $extension
+
+# Convert Rnw to md
+expr='library("ascii");Pandoc("'$1'")'
+R --slave -e $expr
+
+# Convert md to pdf
+mdextension='.md'
+mdfilename=$filename$mdextension
+markdown2pdf $mdfilename
