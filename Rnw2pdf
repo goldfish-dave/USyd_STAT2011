@@ -4,15 +4,12 @@ filename=$(basename $1)
 extension=${filename##*.}
 filename=${filename%.*}
 
-echo $1
-echo $filename
-echo $extension
-
 # Convert Rnw to md
+echo Attempting to convert $1 to $filename'.md ...'
 expr='library("ascii");Pandoc("'$1'")'
 R --slave -e $expr
 
 # Convert md to pdf
-mdextension='.md'
-mdfilename=$filename$mdextension
+mdfilename=$filename'.md'
+echo Attempting to convert $mdfilename to $filename'.pdf ...'
 markdown2pdf $mdfilename
