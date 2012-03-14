@@ -6,6 +6,9 @@ This is a git repo containing my STAT2011 notes, tutorials and labs. I use a com
 
 Inside this repo there are several folders
 
+* **top level** contains:
+  * README
+  * Rnw2pdf script
 * **static** contains:
   * lecture slides
   * tutorial sheets + answers
@@ -16,13 +19,17 @@ Inside this repo there are several folders
 # Rnw Files
 
 An Rnw file is a file for Sweave. It contains R code within 
+```
 <<>>=
 @
+```
 tags. It can be used for both tex and markdown. When using it for markdown do the following:
+```
 $ R
 > library('ascii')
 > Pandoc('filename.Rnw')
 > q()
 $ markdown2pdf filename.md
+```
 
 Because md files are automatically generated, md files are in the .gitignore.
