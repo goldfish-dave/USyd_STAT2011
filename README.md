@@ -26,9 +26,13 @@ An Rnw file is a file for Sweave. It contains R code within
 tags. It can be used for both tex and markdown. When using it for markdown do the following:
 ```
 $ R
+
 > library('ascii')
+
 > Pandoc('filename.Rnw')
+
 > q()
+
 $ markdown2pdf filename.md
 ```
 
