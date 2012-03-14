@@ -2,3 +2,5 @@
 *.html
 *.md
 *.eps
+*.swp
+.DS_Store
