@@ -39,6 +39,8 @@ for ( i in 1:1000 ) {
 }
 @
 
+# Results 
+
 From this "*Monte Carlo*" simulation we should compare the mean and standard deviation.
 
 <<results>>=
