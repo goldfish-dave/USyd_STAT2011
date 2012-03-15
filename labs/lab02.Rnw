@@ -19,7 +19,6 @@ rolls1 = sample(1:6,4000,replace=TRUE)
 four.rolls = matrix(rolls1,1000,4)
 min.rolls = apply(four.rolls,1,min)
 p1.est = sum(min.rolls == 1) / 1000
-p1.est
 @
 
 Experiment with rolling two die 24 times.
@@ -31,7 +30,6 @@ sum.rolls = apply(two.rolls,1,sum)
 twodozen = matrix(sum.rolls,24,1000)
 min.pair = apply(twodozen,2,min)
 p2.est = sum(min.pair == 2) / 1000
-p2.est
 @
 
 Compare the results:
