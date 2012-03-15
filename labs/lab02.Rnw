@@ -8,3 +8,26 @@ Intro
 In this lab we are going to investigate the question:
 
 > What is more likely, getting 1 (on a die) at least once in four rolls of one die, or getting 1 on two dice at least once in 24 rolls of two dice?
+
+Section 1
+========
+
+Experiment with rolling the 4 times 1000 times.
+
+<<event1>>=
+rolls1 = sample(1:6,4000,replace=TRUE)
+four.rolls = matrix(rolls1,1000,4)
+min.rolls = apply(four.rolls,1,min)
+sum(min.rolls == 1)
+@
+
+Experiment with rolling two die 24 times.
+
+<<event2>>=
+rolls2 = sample(1:6,48000,replace=TRUE)
+two.rolls = matrix(rolls2,24000,2)
+sum.rolls = apply(two.rolls,1,sum)
+twodozen = matrix(sum.rolls,24,1000)
+min.pair = apply(twodozen,2,min)
+sum(min.pair == 2)
+@
