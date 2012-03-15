@@ -18,7 +18,8 @@ Experiment with rolling the 4 times 1000 times.
 rolls1 = sample(1:6,4000,replace=TRUE)
 four.rolls = matrix(rolls1,1000,4)
 min.rolls = apply(four.rolls,1,min)
-sum(min.rolls == 1)
+p1.est = sum(min.rolls == 1)
+p1.est
 @
 
 Experiment with rolling two die 24 times.
@@ -29,5 +30,40 @@ two.rolls = matrix(rolls2,24000,2)
 sum.rolls = apply(two.rolls,1,sum)
 twodozen = matrix(sum.rolls,24,1000)
 min.pair = apply(twodozen,2,min)
-sum(min.pair == 2)
+p2.est = sum(min.pair == 2)
+p2.est
+@
+
+Compare the results:
+
+<<compare>>=
+p1.est
+p2.est
+@
+
+The results are too close to say with confidence which event occurred more often.
+
+Section 2
+=========
+
+Now we'll replicate the experiment 25 times each and compare these results.
+
+<<runLoop>>=
+results1 <- 0
+results2 <- 0
+for (i in 1:25) {
+  rolls1 = sample(1:6,4000,replace=TRUE)
+  four.rolls = matrix(rolls1,1000,4)
+  min.rolls = apply(four.rolls,1,min)
+  results1[i] <- sum(min.rolls == 1)
+
+  rolls2 = sample(1:6,48000,replace=TRUE)
+  two.rolls = matrix(rolls2,24000,2)
+  sum.rolls = apply(two.rolls,1,sum)
+  twodozen = matrix(sum.rolls,24,1000)
+  min.pair = apply(twodozen,2,min)
+  results2[i] <- sum(min.pair == 2)
+}
+results1
+results2
 @
