@@ -1,0 +1,84 @@
+% STAT2011 Lab03
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+
+Intro
+=====
+
+In this lab we simulate drawing chips from an urn, both with and without replacement, using the `sample()` function.
+
+<<init,echo=FALSE>>=
+white <- "white"
+black <- "black"
+@
+
+Section 1
+=========
+
+Begin by creating an urn. This urn will have equal numbers (100 white, 100 black).
+
+<<initUrn1>>=
+urn1 <- rep(c(white,black),c(100,100))
+sumWhite <- function(col) { sum(col==white) }
+sampleUrn <- function(urn,isReplaced) {
+    with <- matrix(0,100,100)
+    for ( i in 1:100 ) {
+      with[,i] <- sample(x=urn,size=100,replace=isReplaced)
+    }
+    apply(with,2,sumWhite)
+  }
+@
+
+Sample with replacement.
+
+<<with1>>=
+Xwith1 <- sampleUrn(urn1,TRUE)
+@
+
+Sample without.
+
+<<without1>>=
+Xwithout1 <- sampleUrn(urn1,FALSE)
+@
+
+Section 2
+=========
+
+Begin by creating anotheer urn. This urn will ahve unequal numbers (20 white, 180 black).
+
+<<initUrn2>>=
+urn2 <- rep(c(white,black),c(20,180))
+@
+
+Sample with replacement.
+
+<<with2>>=
+Xwith2 <- sampleUrn(urn2,TRUE)
+@
+
+Sample without.
+
+<<without2>>=
+Xwithout2 <- sampleUrn(urn2,FALSE)
+@
+
+Section 3
+=========
+
+Plot the results.
+
+<<graphing,echo=FALSE,fig=TRUE>>=
+par(mfrow=c(2,2))
+hist(Xwith1,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
+hist(Xwith2,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
+hist(Xwithout1,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
+hist(Xwithout2,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
+@
+
+Compute the means.
+
+<<mean>>=
+results = c( c(mean(Xwith1), sd(Xwith1), mean(Xwithout1), sd(Xwithout1)),
+ c(mean(Xwith2), sd(Xwith2), mean(Xwithout2), sd(Xwithout2)))
+results
+@
