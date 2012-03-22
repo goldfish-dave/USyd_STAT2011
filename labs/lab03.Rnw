@@ -7,9 +7,20 @@ Intro
 
 In this lab we simulate drawing chips from an urn, both with and without replacement, using the `sample()` function.
 
-<<init,echo=FALSE>>=
+Prelim-Code
+===========
+
+<<prelim>>=
 white <- "white"
 black <- "black"
+sumWhite <- function(col) { sum(col==white) }
+sampleUrn <- function(urn,replace) {
+    with <- matrix(0,100,100)
+    for ( i in 1:100 ) {
+      with[,i] <- sample(x=urn,size=100,replace=replace)
+    }
+    apply(with,2,sumWhite)
+  }
 @
 
 Section 1
@@ -19,14 +30,6 @@ Begin by creating an urn. This urn will have equal numbers (100 white, 100 black
 
 <<initUrn1>>=
 urn1 <- rep(c(white,black),c(100,100))
-sumWhite <- function(col) { sum(col==white) }
-sampleUrn <- function(urn,isReplaced) {
-    with <- matrix(0,100,100)
-    for ( i in 1:100 ) {
-      with[,i] <- sample(x=urn,size=100,replace=isReplaced)
-    }
-    apply(with,2,sumWhite)
-  }
 @
 
 Sample with replacement.
@@ -67,7 +70,7 @@ Section 3
 
 Plot the results.
 
-<<graphing,echo=FALSE,fig=TRUE>>=
+<<graphing,echo=FALSE,fig=TRUE,jpeg=FALSE,eps=TRUE,format=eps>>=
 par(mfrow=c(2,2))
 hist(Xwith1,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
 hist(Xwith2,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
@@ -75,10 +78,9 @@ hist(Xwithout1,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
 hist(Xwithout2,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
 @
 
-Compute the means.
+Compute the mean and standard deviation for each.
 
 <<results>>=
-results = c( c(mean(Xwith1), sd(Xwith1), mean(Xwithout1), sd(Xwithout1)),
+c( c(mean(Xwith1), sd(Xwith1), mean(Xwithout1), sd(Xwithout1)),
  c(mean(Xwith2), sd(Xwith2), mean(Xwithout2), sd(Xwithout2)))
-results
 @
