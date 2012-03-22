@@ -44,7 +44,7 @@ Xwithout1 <- sampleUrn(urn1,FALSE)
 Section 2
 =========
 
-Begin by creating anotheer urn. This urn will ahve unequal numbers (20 white, 180 black).
+Begin by creating another urn. This urn will have unequal numbers (20 white, 180 black).
 
 <<initUrn2>>=
 urn2 <- rep(c(white,black),c(20,180))
@@ -77,7 +77,7 @@ hist(Xwithout2,breaks=0:100,ylim=c(0,0.25),prob=TRUE)
 
 Compute the means.
 
-<<mean>>=
+<<results>>=
 results = c( c(mean(Xwith1), sd(Xwith1), mean(Xwithout1), sd(Xwithout1)),
  c(mean(Xwith2), sd(Xwith2), mean(Xwithout2), sd(Xwithout2)))
 results
