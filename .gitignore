@@ -5,3 +5,5 @@
 *.swp
 .DS_Store
 *.jpg
+
+!static/*/*.pdf
