@@ -16,7 +16,7 @@ black <- "black"
 sumWhite <- function(row) {
     sum(row == white)
   }
-sampleUrn <- function(replace) {
+sampleUrn <- function(urn,replace) {
     mat <- matrix(0,10000,5)
     for ( i in 1:10000 ) {
       mat[i,] <- sample(urn,5,replace)
@@ -37,7 +37,7 @@ urn = rep(c(white,black),c(3,7))
 Next we draw 10000 samples of size 5 with replacement from `urn`, storing each sample in a row of a matrix.
 
 <<drawSamp>>=
-withRep <- sampleUrn(TRUE)
+withRep <- sampleUrn(urn,TRUE)
 @
 
 Then we count the number of whites in each row of `withRep`.
@@ -66,7 +66,7 @@ Now we do all of the above without replacement.
 Draw samples.
 
 <<drawSample2>>=
-withoutRep <- sampleUrn(FALSE)
+withoutRep <- sampleUrn(urn,FALSE)
 @
 
 Count whites.
