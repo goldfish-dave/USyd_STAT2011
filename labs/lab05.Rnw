@@ -1,0 +1,96 @@
+% STAT2011 Lab05
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+Intro
+=====
+
+In this lab we revisit (again) the problem of sampling with and without replacement. This time we see what happens when we sample from larger populations.
+
+<<prelim,echo=FALSE>>=
+white <- "white"
+black <- "black"
+@
+
+Section 1
+=========
+
+We know that the variance, when sampling without replacement, in the binomial case looks like:
+
+$$ Var(X) = \frac{nw(N-w)(N-n)}{N^2(N-1)} $$
+
+Given that $p = w/N$ we can rewrite the above equation only in terms of $n$, $p$, and $N$:
+
+$$ Var(X) = np(1-p)\frac{N-n}{N-1} $$
+
+Section 2
+=========
+
+We now create an urn with 10 `white` and 15 `black` chips and sample it, storing the number of whites in `XwithRep1`.
+
+<<withRep1>>=
+urn1 <- rep(c(white,black),c(10,15))
+sampleUrn <- function(urn,replace) {
+    mat <- matrix(0,1000,10) # matrix 1000 rows by 5 columns
+    for ( i in 1:1000 ) {
+      mat[i,] <- sample(urn,10,replace)
+    }
+    mat
+  }
+sumWhite <- function(row) { sum(row == white) }
+sampleAndCount <- function(urn,replace) {
+    apply(sampleUrn(urn,replace), 1, sumWhite)
+  }
+XwithRep1 <- sampleAndCount(urn1,TRUE)
+@
+
+Section 3
+=========
+
+We then do the same thing without replacement.
+
+<<withoutRep2>>=
+XwithoutRep1 <- sampleAndCount(urn1,FALSE)
+@
+
+Section 4
+=========
+
+Repeat again twice with a different urn, both with and without replacement. This new urn will have 100 `white` and 150 `black` chips.
+
+<<withWithoutRep2>>=
+urn2 = rep(c(white,black),c(100,150))
+XwithRep2 <- sampleAndCount(urn2,TRUE)
+XwithoutRep2 <- sampleAndCount(urn2, FALSE)
+@
+
+Section 5
+=========
+
+Finally we compare urn1, urn2 and the theoretical expectations and variances.
+
+<<compare>>=
+ev <- function(n,p) { n * p }
+va1 <- function(n,p,N) { n*p*(1-p) } # with Replacement
+va2 <- function(n,p,N) { n*p*(1-p)*((N-n)/(N-1)) } # without Replacement
+#XwithRep1
+mean(XwithRep1)
+ev(10,10/25)
+va1(10,10/25,25)
+var(XwithRep1)
+#XwithoutRep1
+mean(XwithoutRep1)
+ev(10,10/25)
+va2(10,10/25,25)
+var(XwithoutRep1)
+#Xwithrep2
+mean(XwithRep2)
+ev(10,100/250)
+va1(10,100/250,250)
+var(XwithRep2)
+#XwithoutRep2
+mean(XwithoutRep2)
+ev(10,100/250)
+va2(10,100/250,250)
+var(XwithoutRep2)
+@
