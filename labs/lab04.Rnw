@@ -1,0 +1,89 @@
+% STAT2011 Lab01
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+Intro
+=====
+
+In this lab we simulate drawing chips from an urn with and without replacement. We compare the observed frequency of each value with a theoretical value from a certain distribution.
+
+Prelim-Code
+===========
+
+<<prelim>>=
+white <- "white"
+black <- "black"
+sumWhite <- function(row) {
+    sum(row == white)
+  }
+sampleUrn <- function(urn,replace) {
+    mat <- matrix(0,10000,5)
+    for ( i in 1:10000 ) {
+      mat[i,] <- sample(urn,5,replace)
+    }
+    mat
+  }
+@
+
+Section 1
+=========
+
+We start by creating an urn with 3 `white` and 7 `black` chips.
+
+<<initUrn>>=
+urn = rep(c(white,black),c(3,7))
+@
+
+Next we draw 10000 samples of size 5 with replacement from `urn`, storing each sample in a row of a matrix.
+
+<<drawSamp>>=
+withRep <- sampleUrn(urn,TRUE)
+@
+
+Then we count the number of whites in each row of `withRep`.
+
+<<countWhite>>=
+Xwith = apply(withRep,1,sumWhite)
+@
+
+Then we create a relative frequency table.
+
+<<freqTable>>=
+table(Xwith) / length(Xwith)
+@
+
+Compare with the theoretical values.
+
+<<theoryXwith>>=
+dbinom(0:5,5,0.3)
+@
+
+Section 2
+=========
+
+Now we do all of the above without replacement.
+
+Draw samples.
+
+<<drawSample2>>=
+withoutRep <- sampleUrn(urn,FALSE)
+@
+
+Count whites.
+
+<<countWhite2>>=
+Xwithout <- apply(withoutRep,1,sumWhite)
+@
+
+Create relative frequency table.
+
+
+<<freqTable2>>=
+table(Xwithout) / length(Xwithout)
+@
+
+Compare with the theoretical values, using `dhyper` instead of `dbinom`.
+
+<<theoryXwithout>>=
+dhyper(0:5,3,7,5)
+@
