@@ -1,0 +1,83 @@
+% STAT2011 Lab07
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+Intro
+=====
+
+This week we attempt to find the standard errors via approximations. The data we'll be working with is gene frequencies from 190 people with obsered frequencies of:
+
+$$AA : 10$$
+$$Aa : 68$$
+$$aa : 112$$
+
+Section 1
+=========
+
+In this section we present the theoretical answers.
+
+   $\theta_i$        Estimate     SE
+------------------  ---------- --------
+  $\hat\theta_1$      0.7684    0.0216
+  $\hat\theta_0$      0.7706    0.0353
+  $\hat\theta_2$      0.7678    0.0232
+
+Section 2
+=========
+
+Here we obtain a simulation from best guess standard error for for the estimate $\hat\theta_1 = \frac{1}{2}\bar x$.
+
+<<>>=
+f = c(10,68,112)
+x = c(0,1,2)
+n = sum(f)
+m = sum(f*x)/n
+m
+est1 = m/2
+est1
+simerr <- function(est) {
+    simerror = 0
+    B = 10000
+    for (i in 1:B) {
+      simdat = rbinom(n,2,est)
+      simerror[i] = (mean(simdat)/2) - est
+    }
+    simerror
+  }
+se <- function(est) { sqrt(mean(simerr(est)^2)) }
+se1 = se(est1)
+se1
+@
+
+Section 3
+=========
+
+Here we do the same thing for the two other estimates, $\hat\theta_0 = 1 - \sqrt{n_0 / n}$ and $\hat\theta_2 = \sqrt{n_2 / n}$.
+
+<<>>=
+# n0
+n0 = f[1]
+est0 = 1 - sqrt(n0 / n)
+est0
+se0 = se(est0)
+se0
+
+# n2
+n2 = f[3]
+est2 = sqrt(n2 / n)
+est2
+se2 = se(est2)
+se2
+@
+
+Section 4
+=========
+
+This gives us a new table to compare with the original in Section 1.
+
+   $\theta_i$         Estimate        SE
+------------------   -----------  -----------
+  $\hat\theta_1$      \Sexpr{round(est1,4)}       \Sexpr{round(se1,4)}
+  $\hat\theta_0$      \Sexpr{round(est0,4)}       \Sexpr{round(se0,4)}
+  $\hat\theta_2$      \Sexpr{round(est2,4)}       \Sexpr{round(se2,4)}
+
