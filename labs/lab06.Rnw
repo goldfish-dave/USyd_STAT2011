@@ -1,0 +1,90 @@
+% STAT2011 Lab06
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+Intro
+=====
+
+This week we explore counts modelled as observed values of independent $B(2,p)$ random variables $X_1 , X_2 , ... , X_n$.
+
+Section 1
+=========
+
+Set `p`.
+
+<<>>=
+p = 0.4
+s = rbinom(250, 2, p)
+@
+
+We can estimate the $ev$ by taking the mean.
+
+<<>>=
+p.hat1 = mean(s) / 2
+p.hat1
+@
+
+Section 2
+=========
+
+We will now try estimating `p` by equating `x[x == 0]` to $(1-p)^2$. This gives $p = 1 - \sqrt{n_0}$.
+
+<<>>=
+n0 = mean(s == 0)
+p.hat2 = 1 - sqrt(n0)
+p.hat2
+@
+
+We'll do likewise for twos to $p^2$.
+
+<<>>=
+n2 = mean(s == 2)
+p.hat3 = sqrt(n2)
+p.hat3
+@
+
+We'll now compare the results.
+
+<<>>=
+c(abs(p.hat1 - p), abs(p.hat2 - p), abs(p.hat3 - p))
+@
+
+Section 3
+=========
+
+We will now do the same as above but for many trials, presenting the average squarred error of each estimate.
+
+<<>>=
+test = function(xs,p) { mean((xs - p)**2) }
+trial = function(p) {
+  p.hat1.sim = 0
+  p.hat2.sim = 0
+  p.hat3.sim = 0
+
+  for ( i in 1:1000 ) {
+    s = rbinom(250,2,p)
+    p.hat1.sim[i] = mean(s) / 2
+    p.hat2.sim[i] = 1 - sqrt(mean(s == 0))
+    p.hat3.sim[i] = sqrt(mean(s == 2))
+  }
+  c(test(p.hat1.sim,p),test(p.hat2.sim,p), test(p.hat3.sim,p))
+}
+trial(0.4)
+@
+
+Next we repeat for `p = 0.9`.
+
+<<>>=
+trial(0.9)
+@
+
+Again for 0.95.
+
+<<>>=
+trial(0.95)
+@
+
+Conclusion
+==========
+
+Looking at the results we can see that the predictions typically become more accurate as $p$ increases. However, the one method that was consistently the best was method 1: $\hat{p} = \frac{\bar{X}}{2}$.
