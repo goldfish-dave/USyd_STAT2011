@@ -81,3 +81,4 @@ This gives us a new table to compare with the original in Section 1.
   $\hat\theta_0$      \Sexpr{round(est0,4)}       \Sexpr{round(se0,4)}
   $\hat\theta_2$      \Sexpr{round(est2,4)}       \Sexpr{round(se2,4)}
 
+NOTE: this is actually incorrect. the method of calculating the error should be changing with each round
