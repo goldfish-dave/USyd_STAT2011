@@ -1,0 +1,14 @@
+% STAT2011 Lab11
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+Section 2
+=========
+
+This week we are fitting the following form of the negative binomial distribution:
+
+\begin{equation*}
+	P(Y=y)= { y + r - 1 \choose y }(1 - p)^y p^r \mbox{, for } y=0,1,2,...
+\end{equation*}
+
+where $0 < p < 1$ and $r > 0$.

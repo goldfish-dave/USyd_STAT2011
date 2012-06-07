@@ -13,3 +13,4 @@ R --slave -e $expr
 mdfilename=$filename'.md'
 echo Attempting to convert $mdfilename to $filename'.pdf ...'
 markdown2pdf $mdfilename
+rm $mdfilename

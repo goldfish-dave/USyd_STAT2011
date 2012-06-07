@@ -1,0 +1,130 @@
+% STAT2011 Lab10
+% David Wilcox
+  <dwil5124@uni.sydney.edu.au>
+ 
+Intro
+=====
+
+This week we will be estimating the centre of symmetry of a symmetric
+continuous probability distribution. Two distributions that are symmetric (if
+the density is also symmetric) are the sample mean and sample median.
+
+We are going to examine two different unkown true densities. The first is the
+standard normal distribution with PDF:
+
+\begin{equation}
+	\phi (x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}
+\end{equation}
+
+The second is the Laplace distribution with PDF:
+
+\begin{equation}
+	f(x) = \frac{1}{2}e^{-\abs{x}}
+\end{equation}
+
+Section 1
+=========
+
+<<>>=
+x = rnorm(250)
+@
+
+<<echo=F,fig=T>>=
+hist(x,pr=T,n=25)
+curve(dnorm(x),add=T)
+@
+
+<<>>=
+mn=mean(x)
+md=median(x)
+mn
+md
+@
+
+Section 2
+=========
+
+<<>>=
+mn1=md1=0
+for (i in 1:10000) {
+  samp = rnorm(250)
+  mn1[i] = mean(samp)
+  md1[i] = median(samp)
+}
+@
+
+Section 3
+=========
+
+<<>>=
+mn1.ase = mean((mn1 - mean(mn1))^2)
+md1.ase = median((md1 - median(md1))^2)
+mn1.ase
+md1.ase
+@
+
+Section 4
+=========
+
+See graph.
+
+<<echo=F,fig=T>>=
+r = range(c(mn1,md1))
+breaks = seq(from=r[1],to=r[2],len=50)
+par(mfrow=c(2,1))
+hist(mn1,pr=T,br=breaks,xlim=r,ylim=c(0,7))
+hist(md1,pr=T,br=breaks,xlim=r,ylim=c(0,7))
+@
+
+Section 5
+=========
+
+<<>>=
+y=rexp(250)
+s=sample(c(-1,1),repl=T,size=250)
+x=s*y
+@
+
+See graph. 
+
+<<echo=F,fig=T>>=
+hist(x,pr=T,n=25)
+curve(0.5*exp(-abs(x)),add=T)
+@
+
+Section 6
+=========
+
+<<>>=
+mn2=md2=0
+for (i in 1:10000) {
+  y = rexp(250)
+  s = sample(c(-1,1),repl=T,size=250)
+  x = s*y
+  mn2[i] = mean(x)
+  md2[i] = median(x)
+}
+
+mn2.ase = mean((mn2 - mean(mn2))^2)
+md2.ase = median((md2 - median(md2))^2)
+mn2.ase
+md2.ase
+@
+
+Section 7
+=========
+
+See graph.
+
+<<echo=F,fig=T>>=
+r = range(c(mn2,md2))
+breaks = seq(from=r[1],to=r[2],len=50)
+par(mfrow=c(2,1))
+hist(mn2,pr=T,br=breaks,xlim=r,ylim=c(0,7))
+hist(md2,pr=T,br=breaks,xlim=r,ylim=c(0,7))
+@
+
+Section 8
+=========
+
+They're all rather symmetric.
