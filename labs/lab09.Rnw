@@ -62,18 +62,34 @@ Freq.   56  104   80   62   42   27    9    9    5    3     2     1
 
 <<>>=
 x=c(0,1,2,3,4,5,6,7,8,9,10,19)
-y=c(56,104,80,62,42,27,9,9,5,3,2,1)
-mn2=x*y/400
+f2=c(56,104,80,62,42,27,9,9,5,3,2,1)
+mn2=sum(x*f2)/400
 mn2
 @
 
 <<>>=
-prob2=dpois(0:19,mn2)
-probs2=c(prob2,1-sum(prob2))
-pois.f2=probs2*400
+prob2=dpois(0:11,mn2)
+pois.f2=prob2*400
 pois.f2
 @
 
-<<fig=T>>=
+<<echo=F,fig=T>>=
 plot(pois.f2)
+@
+
+Then calculate `sr`, the standardised residuals and combine using `cbind`.
+
+<<>>=
+sr2=(f2-pois.f2)/sqrt(pois.f2)
+cbind(f2,pois.f2,sr2)
+@
+
+Section 3
+=========
+
+<<>>=
+var(yeast)
+mn
+sum(f2*(x-mn2)^2)/400
+mn2
 @
